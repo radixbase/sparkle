@@ -6,6 +6,7 @@ const colors = require('colors');
 commandIntervals = [];
 const fs = require('fs');
 const clear = require("cli-clear");
+var unirest = require("unirest");
 const Spinner = require('cli-spinner').Spinner;
 const ipInfo = require("ipinfo");
 const auteur = "RadixBase"
@@ -124,18 +125,6 @@ var mentionlogchannel = client.channels.get(fafktransmitchannel);
   if (message.author === client.user){
 
 
-
-/*
-  _    _      _       
- | |  | |    | |      
- | |__| | ___| |_ __  
- |  __  |/ _ \ | '_ \ 
- | |  | |  __/ | |_) |
- |_|  |_|\___|_| .__/ 
-               | |    
-               |_|    
-
-*/
 
 
         if (message.content.startsWith(fprefix + 'help')){
@@ -317,18 +306,6 @@ if (message.content.startsWith(fprefix + 'huser')){
         }
 
 
-
-/*
-  __  __ _               _____                                          _     
- |  \/  (_)             / ____|                                        | |    
- | \  / |_ ___  ___    | |     ___  _ __ ___  _ __ ___   __ _ _ __   __| |___ 
- | |\/| | / __|/ __|   | |    / _ \| '_ ` _ \| '_ ` _ \ / _` | '_ \ / _` / __|
- | |  | | \__ \ (__    | |___| (_) | | | | | | | | | | | (_| | | | | (_| \__ \
- |_|  |_|_|___/\___|    \_____\___/|_| |_| |_|_| |_| |_|\__,_|_| |_|\__,_|___/
-                                                                              
-                                                                              
-
-                                                                              */
 
 
 
@@ -755,16 +732,6 @@ process.exit()
 
 
 
-/*
-
-  _    _               
- | |  | |              
- | |  | |___  ___ _ __ 
- | |  | / __|/ _ \ '__|
- | |__| \__ \  __/ |   
-  \____/|___/\___|_|   
-                       
-   */                    
 
 
 if (message.content === fprefix + "resetact"){
@@ -1233,22 +1200,6 @@ message.channel.send("Votre statut est maintenant: `connecté` :white_check_mark
 
 
 
-/*
-  __  __           _   __           _   _             
- |  \/  |         | | /_/          | | (_)            
- | \  / | ___   __| | ___ _ __ __ _| |_ _  ___  _ __  
- | |\/| |/ _ \ / _` |/ _ \ '__/ _` | __| |/ _ \| '_ \ 
- | |  | | (_) | (_| |  __/ | | (_| | |_| | (_) | | | |
- |_|  |_|\___/ \__,_|\___|_|  \__,_|\__|_|\___/|_| |_|
-                                                      
-                                                      
-*/
-
-
-
-
-
-
 if (message.content.startsWith(fprefix + "kick")) {
 var member= message.mentions.members.first();
 member.kick().then((member) => {
@@ -1300,25 +1251,6 @@ if(message.content.startsWith(fprefix + "clear")) {
 
 
 
-
-
-
-
-/*
-  _____       _     _ 
- |  __ \     (_)   | |
- | |__) |__ _ _  __| |
- |  _  // _` | |/ _` |
- | | \ \ (_| | | (_| |
- |_|  \_\__,_|_|\__,_|
-                      */                     
-
-
-
-
-
-
-
 if (message.content.startsWith(fprefix + 'search')) {
     if (message.deletable) message.delete()
     let args = message.content.split(' ')
@@ -1335,6 +1267,35 @@ if (message.content.startsWith(fprefix + 'search')) {
   }
 
 
+
+if (message.content.startsWith(fprefix + 'btc')) {
+    
+
+
+var req = unirest("GET", "https://blockchain.info/ticker");
+
+req.end(function (res) {
+  if (res.error) throw new Error(res.error);
+message.channel.send("```La Valeur actuelle en € du bitcoin est de: \n" + res.body.EUR.last.toString() + "```");
+
+});
+
+  }
+
+
+if (message.content.startsWith(fprefix + 'tobtc')) {
+    
+
+
+var req = unirest("GET", "https://blockchain.info/tobtc?currency=EUR&value=" + args);
+
+req.end(function (res) {
+  if (res.error) throw new Error(res.error);
+message.channel.send("```" + args + "€ en bitcoin vaut: \n" + res.body.toString() + "```");
+
+});
+
+  }
 
 
 
@@ -1579,3 +1540,5 @@ if (message.content.startsWith(fprefix + "token")) {
 }
 }
 module.exports = sparkle;
+
+
